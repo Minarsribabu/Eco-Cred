@@ -1,7 +1,7 @@
 services:
   - type: web
     name: ecocred
-    runtime: python3
+    runtime: python
     buildCommand: pip install -r backend/requirements.txt
     startCommand: cd backend && python app.py
     envVars:
@@ -9,3 +9,4 @@ services:
         value: your-super-secret-jwt-key-change-this-in-production-make-it-long-and-random
       - key: PORT
         value: 5000
+
