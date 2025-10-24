@@ -17,6 +17,10 @@ load_dotenv()
 JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-me")
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///ecocred.db")
 
+# Handle different database URLs for different environments
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 engine = create_engine(DATABASE_URL, echo=False, future=True)
 SessionLocal = scoped_session(sessionmaker(bind=engine, autoflush=False, autocommit=False))
 Base = declarative_base()
