@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: ecocred-backend
+    runtime: python3
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && python app.py
+    envVars:
+      - key: JWT_SECRET
+        value: your-super-secret-jwt-key-change-this-in-production-make-it-long-and-random
+      - key: PORT
+        value: 5000
+    databases:
+      - name: ecocred-db
+        type: postgresql
