@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoCred - Sign Up</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>EcoCred</h1>
+      <nav>
+        <div class="nav-main">
+          <a href="/">Home</a>
+          <a href="/dashboard.html" class="nav-logged-in">Dashboard</a>
+          <a href="/log.html" class="nav-logged-in">Log Activity</a>
+        </div>
+        <div class="nav-auth">
+          <span class="nav-user"></span>
+          <a href="/login.html" class="nav-not-logged-in btn btn-secondary btn-sm">Sign In</a>
+          <a href="/signup.html" class="nav-not-logged-in btn btn-primary btn-sm active">Sign Up</a>
+          <a href="#" id="logoutBtn" class="nav-logged-in logout-link">Logout</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section class="auth-section">
+        <div class="container">
+          <div class="auth-container">
+            <div class="auth-visual">
+              <div class="visual-content">
+                <div class="visual-icon">🌱</div>
+                <h3>Start Your Eco Journey</h3>
+                <p>Join thousands of users making a positive impact on the environment.</p>
+                <ul class="feature-list">
+                  <li>📊 Track your carbon footprint</li>
+                  <li>🎯 Earn EcoCredits for sustainable actions</li>
+                  <li>💡 Get personalized eco-tips</li>
+                  <li>📈 Monitor your progress over time</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="auth-form">
+              <div class="auth-header">
+                <div class="auth-icon">✨</div>
+                <h2>Create Account</h2>
+                <p>Join EcoCred and start making a difference</p>
+              </div>
+              
+              <form id="signupForm">
+                <div class="form-group">
+                  <label for="displayName">Display Name</label>
+                  <div class="input-group">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="displayName" name="displayName" placeholder="Enter your display name" />
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <div class="input-group">
+                    <span class="input-icon">📧</span>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required />
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <div class="input-group">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="password" name="password" placeholder="Create a secure password" required minlength="8" />
+                  </div>
+                  <small class="form-help">Password must be at least 8 characters long</small>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">
+                  <span class="btn-text">Create Account</span>
+                  <span class="btn-loading" style="display: none;">
+                    <span class="spinner"></span>
+                    Creating account...
+                  </span>
+                </button>
+              </form>
+              
+              <div class="auth-links">
+                <p>Already have an account? <a href="/login.html" class="auth-link">Sign in here</a></p>
+              </div>
+              
+              <div id="message" class="message"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <style>
+      /* Auth Section */
+      .auth-section {
+        padding: var(--space-2xl) 0;
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+      }
+      
+      .auth-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2xl);
+        max-width: 1000px;
+        margin: 0 auto;
+        align-items: center;
+      }
+      
+      /* Auth Form */
+      .auth-form {
+        background: white;
+        padding: var(--space-2xl);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--gray-200);
+      }
+      
+      .auth-header {
+        text-align: center;
+        margin-bottom: var(--space-2xl);
+      }
+      
+      .auth-icon {
+        font-size: 3rem;
+        margin-bottom: var(--space-lg);
+      }
+      
+      .auth-header h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-sm);
+      }
+      
+      .auth-header p {
+        color: var(--gray-600);
+      }
+      
+      /* Input Groups */
+      .input-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      
+      .input-icon {
+        position: absolute;
+        left: var(--space-md);
+        font-size: var(--font-size-lg);
+        color: var(--gray-400);
+        z-index: 1;
+      }
+      
+      .input-group input {
+        padding-left: 3rem;
+      }
+      
+      .form-help {
+        display: block;
+        margin-top: var(--space-sm);
+        font-size: var(--font-size-sm);
+        color: var(--gray-500);
+      }
+      
+      /* Button Styles */
+      .btn-full {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .btn-loading {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+      }
+      
+      /* Auth Links */
+      .auth-links {
+        text-align: center;
+        margin-top: var(--space-xl);
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--gray-200);
+      }
+      
+      .auth-link {
+        color: var(--primary-600);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      
+      .auth-link:hover {
+        color: var(--primary-700);
+        text-decoration: underline;
+      }
+      
+      /* Auth Visual */
+      .auth-visual {
+        background: linear-gradient(135deg, var(--success-50) 0%, var(--primary-50) 100%);
+        padding: var(--space-2xl);
+        border-radius: var(--radius-xl);
+        text-align: center;
+      }
+      
+      .visual-icon {
+        font-size: 4rem;
+        margin-bottom: var(--space-lg);
+      }
+      
+      .visual-content h3 {
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-md);
+      }
+      
+      .visual-content p {
+        color: var(--gray-600);
+        margin-bottom: var(--space-lg);
+      }
+      
+      .feature-list {
+        list-style: none;
+        text-align: left;
+      }
+      
+      .feature-list li {
+        padding: var(--space-sm) 0;
+        color: var(--gray-700);
+        font-weight: 500;
+      }
+      
+      /* Message Styles */
+      .message {
+        margin-top: var(--space-lg);
+        display: none;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .auth-container {
+          grid-template-columns: 1fr;
+          gap: var(--space-lg);
+        }
+        
+        .auth-form {
+          padding: var(--space-lg);
+        }
+        
+        .auth-visual {
+          padding: var(--space-lg);
+        }
+      }
+    </style>
+    
+    <script>
+      document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const displayName = document.getElementById('displayName').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const messageEl = document.getElementById('message');
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'flex';
+        messageEl.style.display = 'none';
+        
+        try {
+          const response = await fetch('/v1/auth/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ displayName, email, password }),
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            eco.setToken(data.token);
+            // Save user info if provided
+            if (data.user) {
+              eco.setCurrentUser(data.user);
+            } else {
+              // Create user object from form data if not provided by server
+              eco.setCurrentUser({
+                displayName: displayName || email.split('@')[0],
+                email: email
+              });
+            }
+            messageEl.textContent = 'Account created successfully! Redirecting...';
+            messageEl.className = 'message success';
+            messageEl.style.display = 'block';
+            setTimeout(() => {
+              window.location.href = '/dashboard.html';
+            }, 1500);
+          } else {
+            messageEl.textContent = data.error || 'Signup failed';
+            messageEl.className = 'message error';
+            messageEl.style.display = 'block';
+          }
+        } catch (error) {
+          messageEl.textContent = 'Network error. Please try again.';
+          messageEl.className = 'message error';
+          messageEl.style.display = 'block';
+        } finally {
+          // Reset button state
+          submitBtn.disabled = false;
+          btnText.style.display = 'inline';
+          btnLoading.style.display = 'none';
+        }
+      });
+    </script>
+    
+    <script src="/js/common.js"></script>
+    <script>
+      // Initialize navigation on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        eco.initNavigation();
+        
+        // Add logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            eco.logout();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

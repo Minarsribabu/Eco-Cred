@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoCred - Track Your Carbon Footprint</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header class="container">
+      <h1>EcoCred</h1>
+      <nav>
+        <div class="nav-main">
+          <a href="/" class="active">Home</a>
+          <!-- Dashboard and Log Activity only show when logged in -->
+          <a href="/dashboard.html" class="nav-logged-in" style="display: none;">Dashboard</a>
+          <a href="/log.html" class="nav-logged-in" style="display: none;">Log Activity</a>
+        </div>
+        <div class="nav-auth">
+          <!-- User name only shows when logged in -->
+          <span class="nav-user" style="display: none;"></span>
+          <!-- Login/Signup only show when NOT logged in -->
+          <a href="/login.html" class="nav-not-logged-in btn btn-secondary btn-sm">Sign In</a>
+          <a href="/signup.html" class="nav-not-logged-in btn btn-primary btn-sm">Sign Up</a>
+          <!-- Logout only shows when logged in -->
+          <a href="#" class="nav-logged-in logout-link" style="display: none;" onclick="eco.logout()">Logout</a>
+        </div>
+      </nav>
+    </header>
+    
+    <main>
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h2>Track Your Carbon Footprint & Earn EcoCredits</h2>
+            <p class="hero-subtitle">
+              Make a positive impact on the environment by monitoring your carbon emissions 
+              and earning rewards for sustainable choices.
+            </p>
+            <div class="hero-actions" id="heroActions">
+              <a href="/signup.html" class="btn btn-primary btn-lg nav-not-logged-in">Get Started Free</a>
+              <a href="/login.html" class="btn btn-secondary btn-lg nav-not-logged-in">Sign In</a>
+              <a href="/dashboard.html" class="btn btn-primary btn-lg nav-logged-in" style="display: none;">Go to Dashboard</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="eco-icon">🌱</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="container">
+          <h3 class="section-title">Why Choose EcoCred?</h3>
+          <div class="grid grid-3">
+            <div class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h4>Track Emissions</h4>
+              <p>Monitor your carbon footprint across transportation, energy usage, and daily activities with detailed analytics.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎯</div>
+              <h4>Earn Credits</h4>
+              <p>Get rewarded with EcoCredits for making environmentally friendly choices and reducing your carbon footprint.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">💡</div>
+              <h4>Get Tips</h4>
+              <p>Receive personalized recommendations to help you live more sustainably and reduce your environmental impact.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section class="how-it-works">
+        <div class="container">
+          <h3 class="section-title">How It Works</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4>Sign Up</h4>
+              <p>Create your free account in seconds</p>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4>Log Activities</h4>
+              <p>Track your daily transportation and energy usage</p>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4>Earn Credits</h4>
+              <p>Get rewarded for sustainable choices</p>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4>Make Impact</h4>
+              <p>Reduce your carbon footprint over time</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta">
+        <div class="container">
+          <div class="cta-content">
+            <h3>Ready to Make a Difference?</h3>
+            <p>Join thousands of users already tracking their environmental impact with EcoCred.</p>
+            <a href="/signup.html" class="btn btn-primary btn-lg nav-not-logged-in">Start Your Journey</a>
+            <a href="/dashboard.html" class="btn btn-primary btn-lg nav-logged-in" style="display: none;">View Your Dashboard</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 EcoCred. Making sustainability measurable and rewarding.</p>
+      </div>
+    </footer>
+
+    <style>
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, var(--primary-50) 0%, var(--success-50) 100%);
+        padding: var(--space-2xl) 0;
+        margin-bottom: var(--space-2xl);
+      }
+      
+      .hero .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2xl);
+        align-items: center;
+      }
+      
+      .hero-content h2 {
+        font-size: var(--font-size-4xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-lg);
+        line-height: 1.2;
+      }
+      
+      .hero-subtitle {
+        font-size: var(--font-size-lg);
+        color: var(--gray-600);
+        margin-bottom: var(--space-2xl);
+        line-height: 1.6;
+      }
+      
+      .hero-actions {
+        display: flex;
+        gap: var(--space-lg);
+        flex-wrap: wrap;
+      }
+      
+      .btn-lg {
+        padding: var(--space-lg) var(--space-2xl);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+      }
+      
+      .hero-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .eco-icon {
+        font-size: 8rem;
+        opacity: 0.8;
+      }
+      
+      /* Features Section */
+      .features {
+        padding: var(--space-2xl) 0;
+      }
+      
+      .section-title {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        text-align: center;
+        margin-bottom: var(--space-2xl);
+      }
+      
+      .feature-card {
+        text-align: center;
+        padding: var(--space-xl);
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: var(--space-lg);
+      }
+      
+      .feature-card h4 {
+        font-size: var(--font-size-xl);
+        font-weight: 600;
+        color: var(--gray-900);
+        margin-bottom: var(--space-md);
+      }
+      
+      .feature-card p {
+        color: var(--gray-600);
+        line-height: 1.6;
+      }
+      
+      /* How It Works */
+      .how-it-works {
+        background: var(--gray-50);
+        padding: var(--space-2xl) 0;
+      }
+      
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-xl);
+        margin-top: var(--space-2xl);
+      }
+      
+      .step {
+        text-align: center;
+        padding: var(--space-lg);
+      }
+      
+      .step-number {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        margin: 0 auto var(--space-lg);
+      }
+      
+      .step h4 {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        color: var(--gray-900);
+        margin-bottom: var(--space-sm);
+      }
+      
+      .step p {
+        color: var(--gray-600);
+      }
+      
+      /* CTA Section */
+      .cta {
+        background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+        color: white;
+        padding: var(--space-2xl) 0;
+        text-align: center;
+      }
+      
+      .cta h3 {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        margin-bottom: var(--space-lg);
+      }
+      
+      .cta p {
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--space-2xl);
+        opacity: 0.9;
+      }
+      
+      .cta .btn-primary {
+        background: white;
+        color: var(--primary-600);
+        border: none;
+      }
+      
+      .cta .btn-primary:hover {
+        background: var(--gray-100);
+        transform: translateY(-2px);
+      }
+      
+      /* Footer */
+      .footer {
+        background: var(--gray-900);
+        color: var(--gray-300);
+        padding: var(--space-xl) 0;
+        text-align: center;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero .container {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        
+        .hero-content h2 {
+          font-size: var(--font-size-3xl);
+        }
+        
+        .hero-actions {
+          justify-content: center;
+        }
+        
+        .eco-icon {
+          font-size: 6rem;
+        }
+        
+        .steps {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .steps {
+          grid-template-columns: 1fr;
+        }
+        
+        .hero-actions {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+
+    <script src="/js/common.js"></script>
+    <script>
+      // Initialize navigation on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        eco.initNavigation();
+      });
+    </script>
+  </body>
+</html>
+

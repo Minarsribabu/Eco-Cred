@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoCred – Log Activity</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>EcoCred</h1>
+      <nav>
+        <div class="nav-main">
+          <a href="/">Home</a>
+          <a href="/dashboard.html" class="nav-logged-in">Dashboard</a>
+          <a href="/log.html" class="nav-logged-in active">Log Activity</a>
+        </div>
+        <div class="nav-auth">
+          <span class="nav-user"></span>
+          <a href="/login.html" class="nav-not-logged-in btn btn-secondary btn-sm">Sign In</a>
+          <a href="/signup.html" class="nav-not-logged-in btn btn-primary btn-sm">Sign Up</a>
+          <a href="#" id="logoutBtn" class="nav-logged-in logout-link">Logout</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="breadcrumb">
+            <a href="/dashboard.html" class="breadcrumb-link">
+              <span>←</span> Dashboard
+            </a>
+          </div>
+          <h1>Log Activity</h1>
+          <p>Track your environmental impact by logging daily activities</p>
+        </div>
+      </section>
+      
+      <!-- Main Content -->
+      <section class="log-content">
+        <div class="container">
+          <div class="content-grid">
+            <!-- Activity Form -->
+            <div class="form-section">
+              <div class="card">
+                <div class="card-header">
+                  <h2>📝 Log New Activity</h2>
+                  <p>Record your transportation or energy usage</p>
+                </div>
+                
+                <form id="form">
+                  <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                      <option value="">Select a category</option>
+                      <option value="transport">🚗 Transport</option>
+                      <option value="electricity">⚡ Electricity</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="type">Activity Type</label>
+                    <select id="type" required>
+                      <option value="">Select an activity</option>
+                      <option value="car">🚗 Car</option>
+                      <option value="bus">🚌 Bus</option>
+                      <option value="train">🚆 Train</option>
+                      <option value="flight">✈️ Flight</option>
+                      <option value="bike">🚴 Bike</option>
+                      <option value="walk">🚶 Walk</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="quantity">Quantity</label>
+                      <input id="quantity" type="number" value="10" min="0" step="0.1" required />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="unit">Unit</label>
+                      <select id="unit" required>
+                        <option value="km">km</option>
+                        <option value="mi">miles</option>
+                        <option value="kWh">kWh</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="date">Date & Time</label>
+                    <input id="date" type="datetime-local" required />
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-full">
+                      <span class="btn-text">Log Activity</span>
+                      <span class="btn-loading" style="display: none;">
+                        <span class="spinner"></span>
+                        Logging...
+                      </span>
+                    </button>
+                  </div>
+                  
+                  <div id="error" class="message error" style="display: none;"></div>
+                  <div id="success" class="message success" style="display: none;"></div>
+                </form>
+              </div>
+            </div>
+            
+            <!-- Tips Section -->
+            <div class="tips-section">
+              <div class="card">
+                <div class="card-header">
+                  <h3>💡 Eco Tips</h3>
+                  <p>Reduce your environmental impact</p>
+                </div>
+                <div class="card-content">
+                  <div id="tips" class="tips-list">
+                    <div class="loading-state">
+                      <span class="spinner"></span>
+                      Loading tips...
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Quick Reference -->
+              <div class="card">
+                <div class="card-header">
+                  <h3>📊 Quick Reference</h3>
+                  <p>Common activity types</p>
+                </div>
+                <div class="card-content">
+                  <div class="reference-grid">
+                    <div class="reference-item">
+                      <span class="ref-icon">🚗</span>
+                      <div>
+                        <strong>Car (Gas)</strong>
+                        <small>~0.2 kg CO2e/km</small>
+                      </div>
+                    </div>
+                    <div class="reference-item">
+                      <span class="ref-icon">🚌</span>
+                      <div>
+                        <strong>Bus</strong>
+                        <small>~0.1 kg CO2e/km</small>
+                      </div>
+                    </div>
+                    <div class="reference-item">
+                      <span class="ref-icon">🚆</span>
+                      <div>
+                        <strong>Train</strong>
+                        <small>~0.05 kg CO2e/km</small>
+                      </div>
+                    </div>
+                    <div class="reference-item">
+                      <span class="ref-icon">✈️</span>
+                      <div>
+                        <strong>Flight</strong>
+                        <small>~0.3 kg CO2e/km</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="/js/common.js"></script>
+    <script>
+      // Check if user is logged in
+      if(!eco.getToken()) {
+        window.location.href = '/login.html';
+      }
+      
+      const catEl = document.getElementById('category');
+      const typeEl = document.getElementById('type');
+      const unitEl = document.getElementById('unit');
+      const qtyEl = document.getElementById('quantity');
+      const dateEl = document.getElementById('date');
+      
+      // Set default date to current time
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      dateEl.value = `${year}-${month}-${day}T${hours}:${minutes}`;
+      
+      // Update type options based on category
+      catEl.addEventListener('change', () => {
+        if(catEl.value === 'transport') {
+          typeEl.innerHTML = `
+            <option value="">Select an activity</option>
+            <option value="car">🚗 Car</option>
+            <option value="bus">🚌 Bus</option>
+            <option value="train">🚆 Train</option>
+            <option value="flight">✈️ Flight</option>
+            <option value="bike">🚴 Bike</option>
+            <option value="walk">🚶 Walk</option>
+          `;
+          unitEl.innerHTML = `
+            <option value="km">km</option>
+            <option value="mi">miles</option>
+          `;
+        } else if(catEl.value === 'electricity') {
+          typeEl.innerHTML = `
+            <option value="">Select an activity</option>
+            <option value="grid_electricity">⚡ Grid Electricity</option>
+          `;
+          unitEl.innerHTML = `
+            <option value="kWh">kWh</option>
+          `;
+        } else {
+          typeEl.innerHTML = '<option value="">Select an activity</option>';
+        }
+      });
+
+      document.getElementById('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errorEl = document.getElementById('error');
+        const successEl = document.getElementById('success');
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        // Clear previous messages
+        errorEl.style.display = 'none';
+        successEl.style.display = 'none';
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'flex';
+        
+        try {
+          // Convert datetime-local to ISO string
+          const dateValue = new Date(dateEl.value).toISOString();
+          
+          console.log('Submitting activity:', {
+            category: catEl.value,
+            type: typeEl.value,
+            quantity: Number(qtyEl.value),
+            unit: unitEl.value,
+            date: dateValue
+          });
+          
+          const result = await eco.apiPost('/activities', {
+            category: catEl.value,
+            type: typeEl.value,
+            quantity: Number(qtyEl.value),
+            unit: unitEl.value,
+            date: dateValue
+          });
+          
+          console.log('Activity logged successfully:', result);
+          
+          // Show eco points effect if credits were earned
+          if (result.credits_earned && result.credits_earned > 0) {
+            eco.showEcoPointsEffect(result.credits_earned, result.credit_reason || 'Activity logged!');
+          }
+          
+          // Show success message
+          successEl.textContent = 'Activity logged successfully! Redirecting to dashboard...';
+          successEl.style.display = 'block';
+          
+          // Redirect after a delay
+          setTimeout(() => {
+            window.location.href = '/dashboard.html';
+          }, 2000);
+          
+        } catch(err) {
+          console.error('Error logging activity:', err);
+          errorEl.textContent = err.message || 'Failed to log activity. Please check your input and try again.';
+          errorEl.style.display = 'block';
+        } finally {
+          // Reset button state
+          submitBtn.disabled = false;
+          btnText.style.display = 'inline';
+          btnLoading.style.display = 'none';
+        }
+      });
+
+      // Load tips
+      (async () => {
+        try {
+          const tips = await eco.apiGet('/tips');
+          const tipsEl = document.getElementById('tips');
+          
+          if (tips.length > 0) {
+            tipsEl.innerHTML = tips.map(tip => `
+              <div class="tip-item">
+                <div class="tip-title">${tip.title}</div>
+                <div class="tip-body">${tip.body}</div>
+              </div>
+            `).join('');
+          } else {
+            tipsEl.innerHTML = '<p class="text-center text-gray-500">No tips available at the moment.</p>';
+          }
+        } catch(err) {
+          console.error('Error loading tips:', err);
+          document.getElementById('tips').innerHTML = '<p class="text-center text-gray-500">Unable to load tips at this time.</p>';
+        }
+      })();
+      
+      // Initialize navigation on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        eco.initNavigation();
+        
+        // Add logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            eco.logout();
+          });
+        }
+      });
+    </script>
+    
+    <style>
+      /* Page Header */
+      .page-header {
+        background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+        color: white;
+        padding: var(--space-2xl) 0;
+        margin-bottom: var(--space-xl);
+      }
+      
+      .breadcrumb {
+        margin-bottom: var(--space-lg);
+      }
+      
+      .breadcrumb-link {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-sm);
+        transition: color 0.2s ease;
+      }
+      
+      .breadcrumb-link:hover {
+        color: white;
+      }
+      
+      .page-header h1 {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        margin-bottom: var(--space-sm);
+      }
+      
+      .page-header p {
+        font-size: var(--font-size-lg);
+        opacity: 0.9;
+      }
+      
+      /* Log Content */
+      .log-content {
+        padding-bottom: var(--space-2xl);
+      }
+      
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2xl);
+        align-items: start;
+      }
+      
+      /* Form Section */
+      .form-section .card {
+        position: sticky;
+        top: var(--space-xl);
+      }
+      
+      .card-header h2 {
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-sm);
+      }
+      
+      .card-header p {
+        color: var(--gray-600);
+      }
+      
+      /* Form Styles */
+      .form-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--space-lg);
+      }
+      
+      .form-actions {
+        margin-top: var(--space-xl);
+      }
+      
+      .btn-full {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .btn-loading {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+      }
+      
+      /* Tips Section */
+      .tips-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+      }
+      
+      .tips-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+      }
+      
+      .tip-item {
+        padding: var(--space-md);
+        background: var(--warning-50);
+        border-radius: var(--radius-md);
+        border-left: 4px solid var(--warning-500);
+      }
+      
+      .tip-title {
+        font-weight: 600;
+        color: var(--gray-900);
+        margin-bottom: var(--space-xs);
+      }
+      
+      .tip-body {
+        font-size: var(--font-size-sm);
+        color: var(--gray-700);
+        line-height: 1.5;
+      }
+      
+      /* Quick Reference */
+      .reference-grid {
+        display: grid;
+        gap: var(--space-md);
+      }
+      
+      .reference-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-md);
+        background: var(--gray-50);
+        border-radius: var(--radius-md);
+      }
+      
+      .ref-icon {
+        font-size: var(--font-size-xl);
+        width: 40px;
+        text-align: center;
+      }
+      
+      .reference-item strong {
+        display: block;
+        font-size: var(--font-size-sm);
+        color: var(--gray-900);
+        margin-bottom: var(--space-xs);
+      }
+      
+      .reference-item small {
+        font-size: var(--font-size-xs);
+        color: var(--gray-600);
+      }
+      
+      /* Loading States */
+      .loading-state {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        color: var(--gray-500);
+        font-size: var(--font-size-sm);
+        justify-content: center;
+        padding: var(--space-lg);
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+          gap: var(--space-lg);
+        }
+        
+        .form-row {
+          grid-template-columns: 1fr;
+          gap: var(--space-md);
+        }
+        
+        .form-section .card {
+          position: static;
+        }
+        
+        .page-header h1 {
+          font-size: var(--font-size-2xl);
+        }
+      }
+    </style>
+  </body>
+</html>
+

@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoCred - Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>EcoCred</h1>
+      <nav>
+        <div class="nav-main">
+          <a href="/">Home</a>
+          <a href="/dashboard.html" class="active nav-logged-in">Dashboard</a>
+          <a href="/log.html" class="nav-logged-in">Log Activity</a>
+        </div>
+        <div class="nav-auth">
+          <span class="nav-user"></span>
+          <a href="/login.html" class="nav-not-logged-in btn btn-secondary btn-sm">Sign In</a>
+          <a href="/signup.html" class="nav-not-logged-in btn btn-primary btn-sm">Sign Up</a>
+          <a href="#" id="logoutBtn" class="nav-logged-in logout-link">Logout</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <!-- Default content - will be hidden by JavaScript if user is logged in -->
+      <div style="text-align: center; padding: 2rem;">
+        <h2>Loading EcoCred Dashboard...</h2>
+        <p>Please wait while we load your environmental data.</p>
+      </div>
+      
+      <div id="authRequired" style="display: none;">
+        <!-- Welcome Section -->
+        <section class="dashboard-header">
+          <div class="container">
+            <div class="welcome-content">
+              <h2>Welcome <span class="welcome-username">User</span>! 👋</h2>
+              <p>Here's your environmental impact overview for this month</p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Stats Overview -->
+        <section class="stats-overview">
+          <div class="container">
+            <div class="stats-grid">
+              <div class="stat-card primary">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-content">
+                  <h3>Carbon Footprint</h3>
+                  <div class="stat-value" id="totalCo2">Loading...</div>
+                  <div class="stat-label">kg CO2e this month</div>
+                  <div class="stat-trend" id="trend">Loading...</div>
+                </div>
+              </div>
+              
+              <div class="stat-card success">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-content">
+                  <h3>EcoCredits</h3>
+                  <div class="stat-value" id="totalPoints">Loading...</div>
+                  <div class="stat-label">Total points earned</div>
+                </div>
+              </div>
+              
+              <div class="stat-card warning">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                  <h3>Activities Logged</h3>
+                  <div class="stat-value" id="activityCount">Loading...</div>
+                  <div class="stat-label">This month</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Main Content -->
+        <section class="dashboard-content">
+          <div class="container">
+            <div class="content-grid">
+              <!-- Recent Activities -->
+              <div class="content-card">
+                <div class="card-header">
+                  <h3>📝 Recent Activities</h3>
+                  <a href="/log.html" class="btn btn-sm btn-primary">Add Activity</a>
+                </div>
+                <div class="card-content" id="activitiesData">
+                  <div class="loading-state">
+                    <span class="spinner"></span>
+                    Loading recent activities...
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Recent Credits -->
+              <div class="content-card">
+                <div class="card-header">
+                  <h3>🎯 Recent EcoCredits</h3>
+                  <span class="card-subtitle">Rewards for sustainable choices</span>
+                </div>
+                <div class="card-content" id="recentCredits">
+                  <div class="loading-state">
+                    <span class="spinner"></span>
+                    Loading credits...
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Eco Tips -->
+              <div class="content-card tips-card">
+                <div class="card-header">
+                  <h3>💡 Eco Tips</h3>
+                  <span class="card-subtitle">Personalized recommendations</span>
+                </div>
+                <div class="card-content" id="tipsData">
+                  <div class="loading-state">
+                    <span class="spinner"></span>
+                    Loading tips...
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+              <h3>Quick Actions</h3>
+              <div class="action-buttons">
+                <a href="/log.html" class="btn btn-primary btn-lg">
+                  <span>📝</span>
+                  Log New Activity
+                </a>
+                <a href="/log.html" class="btn btn-secondary btn-lg">
+                  <span>📊</span>
+                  View Analytics
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+      <!-- Login Prompt -->
+      <div id="loginPrompt" style="display: none;">
+        <section class="login-prompt">
+          <div class="container">
+            <div class="prompt-content">
+              <div class="prompt-icon">🔐</div>
+              <h2>Please Login</h2>
+              <p>You need to be logged in to view your dashboard and track your environmental impact.</p>
+              <div class="prompt-actions">
+                <a href="/login.html" class="btn btn-primary btn-lg">Login</a>
+                <a href="/signup.html" class="btn btn-secondary btn-lg">Sign Up</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    
+    <style>
+      /* Dashboard Header */
+      .dashboard-header {
+        background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+        color: white;
+        padding: var(--space-2xl) 0;
+        margin-bottom: var(--space-xl);
+      }
+      
+      .welcome-content h2 {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        margin-bottom: var(--space-sm);
+      }
+      
+      .welcome-content p {
+        font-size: var(--font-size-lg);
+        opacity: 0.9;
+      }
+      
+      /* Stats Overview */
+      .stats-overview {
+        margin-bottom: var(--space-2xl);
+      }
+      
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--space-lg);
+      }
+      
+      .stat-card {
+        background: white;
+        padding: var(--space-xl);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        display: flex;
+        align-items: center;
+        gap: var(--space-lg);
+        transition: all 0.2s ease;
+      }
+      
+      .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .stat-card.primary {
+        border-left: 4px solid var(--primary-500);
+      }
+      
+      .stat-card.success {
+        border-left: 4px solid var(--success-500);
+      }
+      
+      .stat-card.warning {
+        border-left: 4px solid var(--warning-500);
+      }
+      
+      .stat-icon {
+        font-size: 2.5rem;
+        opacity: 0.8;
+      }
+      
+      .stat-content h3 {
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        color: var(--gray-600);
+        margin-bottom: var(--space-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      .stat-value {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-xs);
+      }
+      
+      .stat-label {
+        font-size: var(--font-size-sm);
+        color: var(--gray-500);
+        margin-bottom: var(--space-xs);
+      }
+      
+      .stat-trend {
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: var(--radius-sm);
+        display: inline-block;
+      }
+      
+      .stat-trend.positive {
+        background: var(--success-50);
+        color: var(--success-700);
+      }
+      
+      .stat-trend.negative {
+        background: var(--error-50);
+        color: var(--error-700);
+      }
+      
+      .stat-trend.neutral {
+        background: var(--gray-100);
+        color: var(--gray-600);
+      }
+      
+      /* Dashboard Content */
+      .dashboard-content {
+        margin-bottom: var(--space-2xl);
+      }
+      
+      .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--space-lg);
+        margin-bottom: var(--space-2xl);
+      }
+      
+      .tips-card {
+        grid-column: 1 / -1;
+      }
+      
+      .content-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-200);
+        overflow: hidden;
+      }
+      
+      .card-header {
+        padding: var(--space-lg);
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .card-header h3 {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        color: var(--gray-900);
+        margin: 0;
+      }
+      
+      .card-subtitle {
+        font-size: var(--font-size-sm);
+        color: var(--gray-500);
+      }
+      
+      .card-content {
+        padding: var(--space-lg);
+      }
+      
+      .btn-sm {
+        padding: var(--space-sm) var(--space-md);
+        font-size: var(--font-size-sm);
+      }
+      
+      /* Activity Items */
+      .activity-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-md);
+        background: var(--gray-50);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-sm);
+        border-left: 4px solid var(--primary-500);
+      }
+      
+      .activity-info {
+        flex: 1;
+      }
+      
+      .activity-type {
+        font-weight: 600;
+        color: var(--gray-900);
+        margin-bottom: var(--space-xs);
+      }
+      
+      .activity-details {
+        font-size: var(--font-size-sm);
+        color: var(--gray-600);
+      }
+      
+      .activity-co2 {
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        color: var(--primary-600);
+      }
+      
+      /* Credit Items */
+      .credit-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-md);
+        background: var(--success-50);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-sm);
+        border-left: 4px solid var(--success-500);
+      }
+      
+      .credit-points {
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        color: var(--success-600);
+      }
+      
+      .credit-reason {
+        font-size: var(--font-size-sm);
+        color: var(--gray-700);
+      }
+      
+      /* Tip Items */
+      .tip-item {
+        padding: var(--space-md);
+        background: var(--warning-50);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-sm);
+        border-left: 4px solid var(--warning-500);
+      }
+      
+      .tip-title {
+        font-weight: 600;
+        color: var(--gray-900);
+        margin-bottom: var(--space-xs);
+      }
+      
+      .tip-body {
+        font-size: var(--font-size-sm);
+        color: var(--gray-700);
+        line-height: 1.5;
+      }
+      
+      /* Quick Actions */
+      .quick-actions {
+        text-align: center;
+        padding: var(--space-2xl);
+        background: var(--gray-50);
+        border-radius: var(--radius-lg);
+      }
+      
+      .quick-actions h3 {
+        font-size: var(--font-size-xl);
+        font-weight: 600;
+        color: var(--gray-900);
+        margin-bottom: var(--space-lg);
+      }
+      
+      .action-buttons {
+        display: flex;
+        gap: var(--space-lg);
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .action-buttons .btn {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+      }
+      
+      /* Login Prompt */
+      .login-prompt {
+        padding: var(--space-2xl) 0;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+      }
+      
+      .prompt-content {
+        text-align: center;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      
+      .prompt-icon {
+        font-size: 4rem;
+        margin-bottom: var(--space-lg);
+      }
+      
+      .prompt-content h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-md);
+      }
+      
+      .prompt-content p {
+        font-size: var(--font-size-lg);
+        color: var(--gray-600);
+        margin-bottom: var(--space-2xl);
+        line-height: 1.6;
+      }
+      
+      .prompt-actions {
+        display: flex;
+        gap: var(--space-lg);
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      /* Loading States */
+      .loading-state {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        color: var(--gray-500);
+        font-size: var(--font-size-sm);
+      }
+      
+      /* Logout Link */
+      .logout-link {
+        color: var(--error-500) !important;
+      }
+      
+      .logout-link:hover {
+        color: var(--error-600) !important;
+        background-color: var(--error-50) !important;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .action-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .prompt-actions {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .stat-card {
+          flex-direction: column;
+          text-align: center;
+          gap: var(--space-md);
+        }
+      }
+    </style>
+    
+    <script>
+      // Wait for DOM and eco object to be ready
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check if eco object is available
+        if (typeof eco === 'undefined') {
+          console.error('Eco object not available');
+          // Show login prompt as fallback
+          document.getElementById('loginPrompt').style.display = 'block';
+          return;
+        }
+        
+        // Check authentication
+        const token = eco.getToken();
+        console.log('Token found:', !!token);
+        
+        // Hide loading message
+        const loadingDiv = document.querySelector('main > div:first-child');
+        if (loadingDiv) {
+          loadingDiv.style.display = 'none';
+        }
+        
+        if (!token) {
+          console.log('No token - showing login prompt');
+          document.getElementById('loginPrompt').style.display = 'block';
+        } else {
+          console.log('Token found - showing dashboard');
+          document.getElementById('authRequired').style.display = 'block';
+          
+          // Update user name display
+          const currentUser = eco.getCurrentUser();
+          if (currentUser && currentUser.displayName) {
+            const welcomeUsername = document.querySelector('.welcome-username');
+            if (welcomeUsername) {
+              welcomeUsername.textContent = currentUser.displayName;
+            }
+          }
+          
+          loadDashboardData();
+        }
+        
+        // Initialize navigation state
+        eco.initNavigation();
+        
+        // Add logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            eco.logout();
+          });
+        }
+      });
+      
+      async function loadDashboardData() {
+        const token = eco.getToken();
+        const headers = {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        };
+        
+        try {
+          // Load summary data
+          const summaryResponse = await fetch('/v1/summary', { headers });
+          if (summaryResponse.ok) {
+            const summaryData = await summaryResponse.json();
+            document.getElementById('totalCo2').textContent = summaryData.total_co2e.toFixed(2);
+            
+            const trendEl = document.getElementById('trend');
+            if (summaryData.trend === null) {
+              trendEl.textContent = 'No data';
+              trendEl.className = 'stat-trend neutral';
+            } else {
+              const trendValue = summaryData.trend * 100;
+              const isPositive = summaryData.trend > 0;
+              trendEl.textContent = `${Math.abs(trendValue).toFixed(1)}% ${isPositive ? '↑' : '↓'}`;
+              trendEl.className = `stat-trend ${isPositive ? 'negative' : 'positive'}`;
+            }
+          }
+          
+          // Load credits data
+          const creditsResponse = await fetch('/v1/credits', { headers });
+          if (creditsResponse.ok) {
+            const creditsData = await creditsResponse.json();
+            document.getElementById('totalPoints').textContent = creditsData.total_points;
+            
+            const recentCreditsEl = document.getElementById('recentCredits');
+            if (creditsData.recent.length > 0) {
+              recentCreditsEl.innerHTML = creditsData.recent.slice(0, 3).map(credit => `
+                <div class="credit-item" onclick="eco.showEcoPointsEffect(${credit.points}, '${credit.reason}')" style="cursor: pointer;">
+                  <div>
+                    <div class="credit-points">+${credit.points}</div>
+                    <div class="credit-reason">${credit.reason}</div>
+                  </div>
+                </div>
+              `).join('');
+            } else {
+              recentCreditsEl.innerHTML = '<p class="text-center text-gray-500">No credits earned yet. Start logging activities to earn rewards!</p>';
+            }
+          }
+          
+          // Load activities data
+          const activitiesResponse = await fetch('/v1/activities', { headers });
+          if (activitiesResponse.ok) {
+            const activitiesData = await activitiesResponse.json();
+            const activitiesEl = document.getElementById('activitiesData');
+            const activityCountEl = document.getElementById('activityCount');
+            
+            if (activityCountEl) {
+              activityCountEl.textContent = activitiesData.items.length;
+            }
+            
+            if (activitiesData.items.length > 0) {
+              activitiesEl.innerHTML = activitiesData.items.slice(0, 5).map(activity => `
+                <div class="activity-item">
+                  <div class="activity-info">
+                    <div class="activity-type">${activity.type}</div>
+                    <div class="activity-details">${activity.quantity} ${activity.unit}</div>
+                  </div>
+                  <div class="activity-co2">${activity.co2e.toFixed(2)} kg CO2e</div>
+                </div>
+              `).join('');
+            } else {
+              activitiesEl.innerHTML = '<p class="text-center text-gray-500">No activities logged yet. <a href="/log.html" class="text-primary-600">Log your first activity!</a></p>';
+            }
+          }
+          
+          // Load tips data
+          const tipsResponse = await fetch('/v1/tips', { headers });
+          if (tipsResponse.ok) {
+            const tipsData = await tipsResponse.json();
+            const tipsEl = document.getElementById('tipsData');
+            
+            if (tipsData.length > 0) {
+              tipsEl.innerHTML = tipsData.slice(0, 3).map(tip => `
+                <div class="tip-item">
+                  <div class="tip-title">${tip.title}</div>
+                  <div class="tip-body">${tip.body}</div>
+                </div>
+              `).join('');
+            } else {
+              tipsEl.innerHTML = '<p class="text-center text-gray-500">No tips available at the moment.</p>';
+            }
+          }
+          
+        } catch (error) {
+          console.error('Error loading dashboard data:', error);
+        }
+      }
+    </script>
+    
+    <script src="/js/common.js"></script>
+  </body>
+</html>

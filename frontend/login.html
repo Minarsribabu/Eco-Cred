@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoCred - Login</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>EcoCred</h1>
+      <nav>
+        <div class="nav-main">
+          <a href="/">Home</a>
+          <a href="/dashboard.html" class="nav-logged-in">Dashboard</a>
+          <a href="/log.html" class="nav-logged-in">Log Activity</a>
+        </div>
+        <div class="nav-auth">
+          <span class="nav-user"></span>
+          <a href="/login.html" class="nav-not-logged-in btn btn-secondary btn-sm active">Sign In</a>
+          <a href="/signup.html" class="nav-not-logged-in btn btn-primary btn-sm">Sign Up</a>
+          <a href="#" id="logoutBtn" class="nav-logged-in logout-link">Logout</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section class="auth-section">
+        <div class="container">
+          <div class="auth-container">
+            <div class="auth-form">
+              <div class="auth-header">
+                <div class="auth-icon">🔐</div>
+                <h2>Welcome Back</h2>
+                <p>Sign in to your EcoCred account</p>
+              </div>
+              
+              <form id="loginForm">
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <div class="input-group">
+                    <span class="input-icon">📧</span>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required />
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <div class="input-group">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required />
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">
+                  <span class="btn-text">Sign In</span>
+                  <span class="btn-loading" style="display: none;">
+                    <span class="spinner"></span>
+                    Signing in...
+                  </span>
+                </button>
+              </form>
+              
+              <div class="auth-links">
+                <p>Don't have an account? <a href="/signup.html" class="auth-link">Create one here</a></p>
+              </div>
+              
+              <div id="message" class="message"></div>
+            </div>
+            
+            <div class="auth-visual">
+              <div class="visual-content">
+                <div class="visual-icon">🌱</div>
+                <h3>Track Your Impact</h3>
+                <p>Monitor your carbon footprint and earn rewards for sustainable choices.</p>
+                <ul class="feature-list">
+                  <li>📊 Real-time emissions tracking</li>
+                  <li>🎯 Earn EcoCredits</li>
+                  <li>💡 Personalized tips</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <style>
+      /* Auth Section */
+      .auth-section {
+        padding: var(--space-2xl) 0;
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+      }
+      
+      .auth-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2xl);
+        max-width: 1000px;
+        margin: 0 auto;
+        align-items: center;
+      }
+      
+      /* Auth Form */
+      .auth-form {
+        background: white;
+        padding: var(--space-2xl);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--gray-200);
+      }
+      
+      .auth-header {
+        text-align: center;
+        margin-bottom: var(--space-2xl);
+      }
+      
+      .auth-icon {
+        font-size: 3rem;
+        margin-bottom: var(--space-lg);
+      }
+      
+      .auth-header h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-sm);
+      }
+      
+      .auth-header p {
+        color: var(--gray-600);
+      }
+      
+      /* Input Groups */
+      .input-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      
+      .input-icon {
+        position: absolute;
+        left: var(--space-md);
+        font-size: var(--font-size-lg);
+        color: var(--gray-400);
+        z-index: 1;
+      }
+      
+      .input-group input {
+        padding-left: 3rem;
+      }
+      
+      /* Button Styles */
+      .btn-full {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .btn-loading {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+      }
+      
+      /* Auth Links */
+      .auth-links {
+        text-align: center;
+        margin-top: var(--space-xl);
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--gray-200);
+      }
+      
+      .auth-link {
+        color: var(--primary-600);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      
+      .auth-link:hover {
+        color: var(--primary-700);
+        text-decoration: underline;
+      }
+      
+      /* Auth Visual */
+      .auth-visual {
+        background: linear-gradient(135deg, var(--primary-50) 0%, var(--success-50) 100%);
+        padding: var(--space-2xl);
+        border-radius: var(--radius-xl);
+        text-align: center;
+      }
+      
+      .visual-icon {
+        font-size: 4rem;
+        margin-bottom: var(--space-lg);
+      }
+      
+      .visual-content h3 {
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: var(--space-md);
+      }
+      
+      .visual-content p {
+        color: var(--gray-600);
+        margin-bottom: var(--space-lg);
+      }
+      
+      .feature-list {
+        list-style: none;
+        text-align: left;
+      }
+      
+      .feature-list li {
+        padding: var(--space-sm) 0;
+        color: var(--gray-700);
+        font-weight: 500;
+      }
+      
+      /* Message Styles */
+      .message {
+        margin-top: var(--space-lg);
+        display: none;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .auth-container {
+          grid-template-columns: 1fr;
+          gap: var(--space-lg);
+        }
+        
+        .auth-form {
+          padding: var(--space-lg);
+        }
+        
+        .auth-visual {
+          padding: var(--space-lg);
+        }
+      }
+    </style>
+    
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const messageEl = document.getElementById('message');
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'flex';
+        messageEl.style.display = 'none';
+        
+        try {
+          const response = await fetch('/v1/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            eco.setToken(data.token);
+            // Save user info if provided
+            if (data.user) {
+              eco.setCurrentUser(data.user);
+            }
+            messageEl.textContent = 'Login successful! Redirecting...';
+            messageEl.className = 'message success';
+            messageEl.style.display = 'block';
+            setTimeout(() => {
+              window.location.href = '/dashboard.html';
+            }, 1500);
+          } else {
+            messageEl.textContent = data.error || 'Login failed';
+            messageEl.className = 'message error';
+            messageEl.style.display = 'block';
+          }
+        } catch (error) {
+          messageEl.textContent = 'Network error. Please try again.';
+          messageEl.className = 'message error';
+          messageEl.style.display = 'block';
+        } finally {
+          // Reset button state
+          submitBtn.disabled = false;
+          btnText.style.display = 'inline';
+          btnLoading.style.display = 'none';
+        }
+      });
+    </script>
+    
+    <script src="/js/common.js"></script>
+    <script>
+      // Initialize navigation on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        eco.initNavigation();
+        
+        // Add logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            eco.logout();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
