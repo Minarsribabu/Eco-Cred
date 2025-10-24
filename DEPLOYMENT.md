@@ -34,7 +34,36 @@ The app will be available at http://localhost:5000
 
 ## Production Deployment Options
 
-### 1. Railway (Recommended)
+### 1. Render (Recommended - Free tier available)
+Render provides free hosting with PostgreSQL and automatic deployments.
+
+**Method 1: Manual Setup (Recommended)**
+1. Go to [render.com](https://render.com) and sign up
+2. **First, create PostgreSQL database:**
+   - Click "New +" → "PostgreSQL"
+   - Name: `ecocred-db`
+   - Copy the `DATABASE_URL`
+3. **Then create Web Service:**
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository (Eco-Cred)
+   - Configure:
+     - **Runtime**: Python 3
+     - **Build Command**: `pip install -r backend/requirements.txt`
+     - **Start Command**: `cd backend && python app.py`
+4. **Set environment variables:**
+   - `JWT_SECRET`: Generate a secure random string (32+ characters)
+   - `DATABASE_URL`: Paste from your PostgreSQL database
+   - `PORT`: 5000
+5. Deploy
+
+**Method 2: Using render.yaml (Alternative)**
+1. Commit the `render.yaml` file to your repository
+2. Go to Render → "New +" → "Blueprint"
+3. Connect your GitHub repo
+4. Render will auto-configure based on `render.yaml`
+   - **Note**: Use `runtime: python` (not `python3`) in render.yaml
+
+### 2. Railway
 Railway provides easy deployment with built-in PostgreSQL.
 
 1. Connect your GitHub repository to Railway
@@ -44,7 +73,10 @@ Railway provides easy deployment with built-in PostgreSQL.
    - `DATABASE_URL`: Provided by Railway PostgreSQL
    - `PORT`: 5000 (default)
 
-### 2. Heroku
+### 3. Vercel (Frontend only - not recommended for full-stack)
+Vercel is primarily for frontend apps. For full-stack Python apps, use Render or Railway instead.
+
+### 4. Heroku
 ```bash
 # Create Heroku app
 heroku create your-ecocred-app
@@ -54,16 +86,16 @@ heroku config:set JWT_SECRET=your-secure-jwt-secret
 heroku config:set DATABASE_URL=your-postgres-url
 
 # Deploy
-git push heroku main
+git push heroku master
 ```
 
-### 3. DigitalOcean App Platform
+### 5. DigitalOcean App Platform
 1. Connect your repository
 2. Configure as Python app
 3. Set environment variables
 4. Deploy
 
-### 4. AWS/GCP/Azure
+### 6. AWS/GCP/Azure
 Deploy using their container services or App Runner equivalents.
 
 ## Environment Variables
