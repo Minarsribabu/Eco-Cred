@@ -21,6 +21,10 @@ DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///ecocred.db")
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
+# Use pg8000 driver explicitly for PostgreSQL
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://", 1)
+
 engine = create_engine(DATABASE_URL, echo=False, future=True)
 SessionLocal = scoped_session(sessionmaker(bind=engine, autoflush=False, autocommit=False))
 Base = declarative_base()
