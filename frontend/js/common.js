@@ -1,4 +1,4 @@
-const API_BASE = (window.API_BASE) || 'http://localhost:5000/v1';
+const API_BASE = window.location.origin + '/v1';
 
 function getToken(){ return localStorage.getItem('authToken'); }
 function setToken(t){ localStorage.setItem('authToken', t); }

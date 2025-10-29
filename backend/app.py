@@ -289,17 +289,20 @@ def create_activity():
 		db.add(activity)
 		# credits
 		points = 0
+		reason = ""
 		if a_type in ("bike", "walk"):
 			points = 5
+			reason = "low_carbon_choice"
 		elif a_type in ("bus", "train"):
 			points = 3
+			reason = "low_carbon_choice"
 		if points > 0:
-			db.add(Credit(id=generate_id("cred"), user_id=request.user_id, activity_id=activity.id, reason="low_carbon_choice", points=points))
+			db.add(Credit(id=generate_id("cred"), user_id=request.user_id, activity_id=activity.id, reason=reason, points=points))
 		db.commit()
 		return jsonify({"activity": {
 			"id": activity.id,
 			"co2e": activity.co2e,
-		}})
+		}, "credits_earned": points, "credit_reason": reason})
 	finally:
 		db.close()
 

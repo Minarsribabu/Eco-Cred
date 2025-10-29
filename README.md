@@ -50,15 +50,33 @@ python app.py
 The app will be available at http://localhost:5000
 
 
+### Docker
+```bash
+# Build and run with Docker Compose
+docker-compose up -d
+```
+
 ### Production Deployment
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+EcoCred is deployed on Render with PostgreSQL. See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+**Live Demo**: [EcoCred on Render](https://your-render-app-url.onrender.com)
 
 ## Tech Stack
 - **Backend**: Python Flask with SQLAlchemy
-- **Frontend**: HTML/CSS/JavaScript
+- **Frontend**: HTML/CSS/JavaScript (Vanilla)
 - **Database**: SQLite (dev) / PostgreSQL (prod)
-- **Authentication**: JWT
-- **Deployment**: Docker, Railway, Heroku, etc.
+- **Authentication**: JWT tokens
+- **Deployment**: Render (with auto-scaling)
+- **Containerization**: Docker + Docker Compose
+
+## Features
+- ✅ User registration and authentication
+- ✅ Carbon footprint tracking (transport, electricity)
+- ✅ Automatic emissions calculations
+- ✅ EcoCredits reward system
+- ✅ Personal dashboard with analytics
+- ✅ Responsive mobile-friendly design
+- ✅ RESTful API
 
 ## API Documentation
 
