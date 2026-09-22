@@ -1,2 +1,8 @@
+[project]
+name = "ecocred"
+version = "0.1.0"
+description = "EcoCred carbon footprint tracking application"
+requires-python = ">=3.12"
+
 [tool.vercel]
 entrypoint = "backend.app:app"
